@@ -30,15 +30,10 @@ bot.on('message', (msg) => {
     title = "*" + title + "*\n";
     verse = verse + "\n";
     quote = "_" + quote + "_\n\n";
-    
 
-    console.log(title);
-    console.log(verse);
-    console.log(quote);
-    console.log(message);
+    var credits = "\n\nDaily devotional from https://www.newcreation.org.sg/resources/#daily-devotional"
 
-    var text = title + verse + number + quote + message;
-    
+    var text = title + verse + number + quote + message + credits;
 
     bot.sendMessage(chatId, text, {parse_mode: "Markdown"});
 
