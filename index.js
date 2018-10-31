@@ -9,22 +9,34 @@ bot.on('message', (msg) => {
   request({url: 'https://www.newcreation.org.sg/ajax/get/daily-devotional', 'headers': 'headers'}, function(error, response, body) {
     
 
+    var title = body.split("<h1")[1];
+    var verse = title.split("<h4>")[1];
+    var quote = verse.split("<h3>")[1];
+    var message = quote.split("</blockquote>")[1];
 
-    var split = body.split("h1");
-    var title = split[1].split("<p>")[1].split("<br>")[0];
-    split = split[2].split("<h4>");
-    split = split[1].split("</h4>");
-    var verse = split[0];
-    var quote = split[1];
+    title = title.split("<p>")[1].split("<br>")[0];
+    verse = verse.split("</h4>")[0];
+    quote = quote.split("</h3>")[0].split("sup>");
+    var number = quote[1].split("<")[0] + " ";
+    quote = quote[2];
+    message = message.split("</div>")[0];
+    message = message.replace(/<p>/g, '');
+    message = message.replace(/<\/p>/g, '');
+    message = message.trim();
     
-    console.log(title);
+    title = "*" + title + "*\n";
+    verse = verse + "\n";
+    quote = "_" + quote + "_\n\n";
+    
 
-    // var verse = body.split("<h4>")[1].split("</h4>")[0];
+    console.log(title);
     console.log(verse);
     console.log(quote);
-    
+    console.log(message);
+
+    var text = title + verse + number + quote + message;
+
+    bot.sendMessage(chatId, text, {parse_mode: "Markdown"});
 
   })
-  // fetch("https://www.newcreation.org.sg/ajax/get/daily-devotional").then(resp => resp.text()).then(text => console.log(text));
-  bot.sendMessage(chatId, 'Received your message');
 });
